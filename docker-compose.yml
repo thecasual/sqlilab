@@ -1,0 +1,16 @@
+version: '3.3'
+
+services:
+  db:
+    build: .
+    restart: always
+    container_name: sqlimysql
+    environment:
+      MYSQL_DATABASE: 'sqlimysql'
+      MYSQL_USER: 'sam'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'secret'
+    ports:
+      - '3306:3306'
+    expose:
+      - '3306'

@@ -1,16 +1,32 @@
 version: '3.3'
 
 services:
-  db:
-    build: .
+  db1:
+    build:
+      context: ./labs/1
     restart: always
-    container_name: sqlimysql
+    container_name: sql-lab1
     environment:
-      MYSQL_DATABASE: 'sqlimysql'
+      MYSQL_DATABASE: 'db'
       MYSQL_USER: 'sam'
       MYSQL_PASSWORD: 'secret'
       MYSQL_ROOT_PASSWORD: 'secret'
     ports:
-      - '3306:3306'
+      - '9001:3306'
     expose:
-      - '3306'
+      - '9001'
+      
+  db2:
+    build:
+      context: ./labs/2
+    restart: always
+    container_name: sql-lab2
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'sam'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'secret'
+    ports:
+      - '9002:3306'
+    expose:
+      - '9002'

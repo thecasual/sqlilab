@@ -1,0 +1,22 @@
+<!doctype html>
+<html>
+   <head>
+      Welcome to Lab {{ labnum }}
+   </head>
+
+   <body>
+
+
+         <form action="/lab{{ labnum }}" method="POST">
+            Submission: <input type="text" name="value"><br>
+                        <input type="hidden" value={{ labnum }} name="lab"><br>
+            <input type="submit" value="Submit">
+          </form>
+
+
+
+
+   </body>
+   
+
+</html>

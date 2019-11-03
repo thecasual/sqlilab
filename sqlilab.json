@@ -1,0 +1,22 @@
+{
+    "labs" : [
+        { 
+            "1" : {
+                "Name" : "Lab 1",
+                "Filter" : "None", 
+                "Query" : "select * from account where name = 'USERINPUTHERE';"
+            },
+            "2" : {
+                "Name" : "Lab 2",
+                "Filter" : "None", 
+                "Query" : "select * from account where name = 'USERINPUTHERE';"
+            }
+        }
+    ],
+    "config" : {
+        "username" : "sam",
+        "password" : "secret",
+        "dbhost" : "10.24.0.94",
+        "database" : "db"
+    }
+}

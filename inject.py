@@ -57,3 +57,5 @@ def testselect():
     print(sqlquery("1", q))
 
 #processrequest("1", "Sam")
+
+#testinsert()

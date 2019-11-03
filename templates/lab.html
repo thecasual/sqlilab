@@ -13,6 +13,14 @@
             <input type="submit" value="Submit">
           </form>
 
+         {{ returndata }}
+
+          <form action="/lab{{ labnum }}" method="POST">
+            Submission2: <input type="text" name="answer"><br>
+                        <input type="hidden" value={{ labnum }} name="lab"><br>
+            <input type="submit" value="Submit">
+          </form>
+
 
 
 

@@ -1,6 +1,7 @@
 import json
 import random
 import string
+import os
 
 def randomString(stringLength=10):
     """Generate a random string of fixed length """
@@ -24,6 +25,13 @@ def usersignup(username):
             })
         with open('users.json', 'w') as out:
             json.dump(data, out)
+        with open('templates/score.json', 'r') as score_file:
+            currscore = json.load(score_file)
+            currscore.append({
+                'Name' : username
+            })
+        with open('templates/score.json', 'w') as write_score_file:
+            json.dump(currscore, write_score_file)
         return key       
 
 def getuserfromkey(key):
@@ -39,6 +47,7 @@ def getuserfromkey(key):
          
 
 def updatescore(labnum, key):
+    #relies on creating the user to fill in score.json
     with open('templates/score.json') as json_file:
         data = json.load(json_file)
     username = getuserfromkey(key)
@@ -56,10 +65,10 @@ def updatescore(labnum, key):
         for j in data:
             if username == j['Name']:
                 data[c][flag] = "True"
-                with open('score.json', 'w') as out:
+                with open('templates/score.json', 'w') as out:
                     json.dump(data, out)
                 break
             c+=1
 
-
-updatescore("4", "123124124213")
+def rebuildeverything():
+    os.system('util/rebuild.sh')

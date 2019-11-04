@@ -4,12 +4,12 @@
             "1" : {
                 "Name" : "Lab 1",
                 "Filter" : "None", 
-                "Query" : "select * from account where name = 'USERINPUTHERE';"
+                "Query" : "select * from dogs where id = 'USERINPUTHERE';"
             },
             "2" : {
                 "Name" : "Lab 2",
                 "Filter" : "None", 
-                "Query" : "select * from account where name = 'USERINPUTHERE';"
+                "Query" : "select * from dogs where id = 'USERINPUTHERE';"
             }
         }
     ],

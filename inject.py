@@ -18,6 +18,7 @@ def sqlinsert(labnum, query):
     dbport = "900{}".format(labnum)
     mydb = mysql.connector.connect(host=dbhost, user=uname, passwd=pwd, database=dbname, port=dbport)
     mycursor = mydb.cursor()
+    print("Running query : {}".format(query))
     mycursor.execute(query)
     mydb.commit()
 
@@ -55,21 +56,4 @@ def checkanswer(labnum, answer):
     else:
         return False
 
-
-#Some test
-def testinsert():
-    sqlinsert("1", 'INSERT INTO `account` (`Name`,`CC`) VALUES ("Sam","123456 123456 1713")')
-def testselect():
-    s = "sam"
-    q = "select * from account where name = '{}';".format(s)
-    print(sqlquery("1", q))
-
-#testselect()
-#processrequest("1", "Sam")
-
-#testinsert()
-
-#answers
-# 1) test' or 1=1 -- -
-
-# rachel' UNION SELECT * FROM secret' -- -
+# 1) 1' UNION SELECT Name, Password FROM secret -- -

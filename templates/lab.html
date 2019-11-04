@@ -1,30 +1,28 @@
 <!doctype html>
 <html>
+      <link rel="stylesheet" type="text/css" href="/css/swag.css">
+      <link rel="shortcut icon" href="/img/favicon.ico">
    <head>
-      Welcome to Lab {{ labnum }}
+      <h1>Welcome to Lab {{ labnum }} </h1>
    </head>
 
    <body>
 
 
          <form action="/lab{{ labnum }}" method="POST">
-            Submission: <input type="text" name="value"><br>
+            <h3>Dog Facts</h3><input type="text" name="value"><br>
                         <input type="hidden" value={{ labnum }} name="lab"><br>
             <input type="submit" value="Submit">
           </form>
 
-         {{ returndata }}
+          <br><br><br><br>
+
+         <h3>{{ returndata }}</h3>
 
           <form action="/lab{{ labnum }}" method="POST">
-            Submission2: <input type="text" name="answer"><br>
+            <h3>Submit Answer</h3> <input type="text" name="answer"><br>
                         <input type="hidden" value={{ labnum }} name="lab"><br>
             <input type="submit" value="Submit">
           </form>
-
-
-
-
    </body>
-   
-
 </html>

@@ -16,6 +16,12 @@ app = Flask(__name__)
 def hello():
     return render_template('lablanding.html')
 
+@app.route('/rebuildlab')
+def rebuild():
+    print("Rebuilding Lab")
+    rebuildeverything()
+    return render_template('lablanding.html')
+
 @app.route('/score.json')
 def returnjson():
     return render_template('score.json')
@@ -27,6 +33,14 @@ def returnscore():
 @app.route('/js/<path:path>')
 def send_js(path):
     return send_from_directory('js', path)
+
+@app.route('/css/<path:path>')
+def send_css(path):
+    return send_from_directory('css', path)
+
+@app.route('/img/<path:path>')
+def send_img(path):
+    return send_from_directory('img', path)
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -55,10 +69,14 @@ def render_static(page_name):
     if request.method == 'POST' and request.form.get('answer'):
         answer = request.form.get('answer')
         if checkanswer(labnum, answer):
-            updatescore(labnum, request.cookies['sqlilab'])
-            return "Correct answer provided"
-            #Correct answer provided
-            #TODO webhook/update scoreboard
+            if "sqlilab" not in request.cookies:
+               return render_template('signup.html') 
+            else:
+                updatescore(labnum, request.cookies['sqlilab'])
+                return render_template('lab.html', labname=page_name, labnum=labnum, returndata="Nice Work!!! Bobby would be so proud of you!")
+                #return "Correct answer provided"
+                #Correct answer provided
+                #TODO webhook/update scoreboard
         else:
             return render_template('lab.html', labname=page_name, labnum=labnum, returndata="Incorrect Answer!")
 
@@ -69,17 +87,17 @@ def render_static(page_name):
 
         result = processrequest(labnum, value)
         if result != "No results":
-            msg = ""
-            for entry in result:
-                msg = msg + entry[2] + '\n'
-            return render_template('lab.html', labname=page_name, labnum=labnum, returndata=msg)
+            #msg = ""
+            #for entry in result:
+            #    msg = msg + entry[2] + '\n'
+            return render_template('lab.html', labname=page_name, labnum=labnum, returndata=result)
         #If there is no data in the sql query
         else:
             return render_template('lab.html', labname=page_name, labnum=labnum, returndata="No results")
 
     #Landing
     elif re.match(labregex, page_name):
-        return render_template('lab.html', labname=page_name, labnum=labnum, returndata="return data here")
+        return render_template('lab.html', labname=page_name, labnum=labnum, returndata="")
         #else:
         #    return "You shouldn't be here"}
 

@@ -22,7 +22,6 @@ def sqlinsert(labnum, query):
     mydb.commit()
 
 def sqlquery(labnum, query):
-    print(labnum, query)
     dbport = "900{}".format(labnum)
     mydb = mysql.connector.connect(host=dbhost, user=uname, passwd=pwd, database=dbname, port=dbport)
     mycursor = mydb.cursor()
@@ -32,7 +31,7 @@ def sqlquery(labnum, query):
     if len(myresult) == 0:
         return "No results"
     else:
-        print("Returning {}".format(myresult))
+        #print("Returning {}".format(myresult))
         return myresult
 
 def processrequest(labnum, value):
@@ -42,11 +41,20 @@ def processrequest(labnum, value):
         query = data['labs'][0][labnum]['Query']
         query = query.replace('USERINPUTHERE', cleanvalue)
         out = sqlquery(labnum, query)
-        print("Query : {}".format(query))
+        #print("Query : {}".format(query))
         return out
     else:
-        print("Invalid lab number or value")
+        #print("Invalid lab number or value")
         return "Invalid lab number"
+
+def checkanswer(labnum, answer):
+    q = sqlquery(labnum, "select * from secret;")
+    theanswer = q[0][2]
+    if answer == theanswer:
+        return True
+    else:
+        return False
+
 
 #Some test
 def testinsert():
@@ -56,6 +64,12 @@ def testselect():
     q = "select * from account where name = '{}';".format(s)
     print(sqlquery("1", q))
 
+#testselect()
 #processrequest("1", "Sam")
 
 #testinsert()
+
+#answers
+# 1) test' or 1=1 -- -
+
+# rachel' UNION SELECT * FROM secret' -- -

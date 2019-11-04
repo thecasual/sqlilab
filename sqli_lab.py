@@ -1,6 +1,7 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_from_directory, json, make_response
 import re
 from inject import *
+from util import *
 labregex = "^lab\d+$"
 app = Flask(__name__)
 
@@ -8,11 +9,41 @@ app = Flask(__name__)
 # 1) UI
 # 2) Button - Rebuild all labs
 # 3) Button - rebuild a single lab
-# 4) Create submission - same query for all labs?
+# 4) If correct - update score.json
+# 5) Webhook when correct
 
 @app.route('/')
 def hello():
     return render_template('lablanding.html')
+
+@app.route('/score.json')
+def returnjson():
+    return render_template('score.json')
+
+@app.route('/score')
+def returnscore():
+    return render_template('score.html')
+
+@app.route('/js/<path:path>')
+def send_js(path):
+    return send_from_directory('js', path)
+
+@app.route('/signup', methods=['GET', 'POST'])
+def signup():
+    if request.method == 'POST' and request.form.get('username'):
+        username = request.form.get('username')
+        print(username)
+        key = usersignup(username)
+        resp = make_response(render_template('lablanding.html'))
+        resp.set_cookie('sqlilab', key)
+        return resp
+    elif "sqlilab" in request.cookies:
+        key = request.cookies['sqlilab']
+        username = getuserfromkey(key)
+        return "You are already signed up... \r Username {} : Key {}".format(username,key)
+    else:
+        print("Who are you...")
+        return render_template('signup.html')
 
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
@@ -23,7 +54,13 @@ def render_static(page_name):
     #Answer Attempt
     if request.method == 'POST' and request.form.get('answer'):
         answer = request.form.get('answer')
-        return "Answer submitted {}".format(answer)
+        if checkanswer(labnum, answer):
+            updatescore(labnum, request.cookies['sqlilab'])
+            return "Correct answer provided"
+            #Correct answer provided
+            #TODO webhook/update scoreboard
+        else:
+            return render_template('lab.html', labname=page_name, labnum=labnum, returndata="Incorrect Answer!")
 
     #SQL Injection attempts go here
     elif request.method == 'POST' and request.form.get('value') and request.form.get('lab'):

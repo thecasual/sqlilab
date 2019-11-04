@@ -17,6 +17,7 @@
         "username" : "sam",
         "password" : "secret",
         "dbhost" : "10.24.0.94",
-        "database" : "db"
+        "database" : "db",
+        "webhookurl" : "here"
     }
 }

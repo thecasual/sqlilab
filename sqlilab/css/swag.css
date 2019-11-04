@@ -1,0 +1,95 @@
+body {
+    background-color: black;
+    text-align: center
+  }
+  p {
+    color: green;
+    text-align: center
+  }
+
+#title {
+    font-size:400%;
+    margin-top: 5%;
+    text-align: center
+}
+
+#sanitizedinput {
+    font-size:300%;
+}
+
+#pattern {
+    font-size:200%;
+}
+
+#startdiv {
+  text-align:"center";
+  color:green;
+}
+
+a {
+  color:green;
+  font-size:250%;
+  text-align: center
+}
+
+tr { 
+  color:green;
+  font-size:125%;
+  width: 100%;
+}
+table {
+  width:80%;
+}
+
+th {
+  font-weight : bold;
+}
+
+body {
+  font-family: "Lato", sans-serif;
+  text-align: center
+}
+
+h1 {
+  color:green;
+  font-size:300%;
+  text-align: center;
+}
+
+h2 {
+  color:green;
+  font-size:250%;
+  text-align: center;
+}
+
+h3 {
+  color:green;
+  font-size:200%;
+  text-align: center;
+}
+
+h5 {
+  color:green;
+  font-size:115%;
+  text-align: center;
+}
+
+@media screen and (max-height: 450px) {
+  .sidenav {padding-top: 15px;}
+  .sidenav a {font-size: 18px;}
+}
+
+.topnav {
+  background-color: #333;
+  overflow: hidden;
+}
+
+/* Style the links inside the navigation bar */
+.topnav a {
+float: left;
+color: #f2f2f2;
+text-align: center;
+padding: 14px 16px;
+text-decoration: none;
+font-size: 17px;
+}

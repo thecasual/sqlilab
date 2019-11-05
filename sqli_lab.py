@@ -5,22 +5,25 @@ from util import *
 labregex = "^lab\d+$"
 app = Flask(__name__)
 
+with open('sqlilab.json') as json_data_file:
+    data = json.load(json_data_file)
+
 #TODO
 # 1) UI
-# 2) Button - Rebuild all labs
-# 3) Button - rebuild a single lab
-# 4) If correct - update score.json
-# 5) Webhook when correct
+# 2) Button - rebuild a single lab
+
 
 @app.route('/')
 def hello():
-    return render_template('lablanding.html')
+    if "sqlilab" not in request.cookies:
+        return render_template('signup.html') 
+    return render_template('lablanding.html', custommessage="")
 
 @app.route('/rebuildlab')
 def rebuild():
     print("Rebuilding Lab")
     rebuildeverything()
-    return render_template('lablanding.html')
+    return render_template('lablanding.html', custommessage="Lab has been rebuilt!")
 
 @app.route('/score.json')
 def returnjson():
@@ -48,13 +51,13 @@ def signup():
         username = request.form.get('username')
         print(username)
         key = usersignup(username)
-        resp = make_response(render_template('lablanding.html'))
+        resp = make_response(render_template('lablanding.html', custommessage=""))
         resp.set_cookie('sqlilab', key)
         return resp
     elif "sqlilab" in request.cookies:
         key = request.cookies['sqlilab']
         username = getuserfromkey(key)
-        return "You are already signed up... \r Username {} : Key {}".format(username,key)
+        return render_template('lablanding.html', custommessage="You already have an account called {}".format(username))
     else:
         print("Who are you...")
         return render_template('signup.html')
@@ -62,8 +65,12 @@ def signup():
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
 
+    labsbuilt = len(data['labs'][0])
+
     if re.match(labregex, page_name):
         labnum = re.sub("\D", "", page_name)
+        sqlquery = data['labs'][0][labnum]['Query']
+        refilter = data['labs'][0][labnum]['Filter']
 
     #Answer Attempt
     if request.method == 'POST' and request.form.get('answer'):
@@ -72,13 +79,18 @@ def render_static(page_name):
             if "sqlilab" not in request.cookies:
                return render_template('signup.html') 
             else:
-                updatescore(labnum, request.cookies['sqlilab'])
-                return render_template('lab.html', labname=page_name, labnum=labnum, returndata="Nice Work!!! Bobby would be so proud of you!")
-                #return "Correct answer provided"
                 #Correct answer provided
-                #TODO webhook/update scoreboard
+                updatescore(labnum, request.cookies['sqlilab'])
+                
+                user = getuserfromkey(request.cookies['sqlilab'])
+                ChallengeURL = data['config']['ChallengeURL']
+                try:
+                    postwebhook("Flag Captured!! Challenge {0} Completed By {1}\r\rJOIN HERE: {2}\r\rSCOREBOARD: {3}".format(labnum, user, ChallengeURL, "{}score".format(ChallengeURL)))
+                except:
+                    pass
+                return render_template('lab.html',  labsbuilt=labsbuilt, labname=page_name, sqlquery=sqlquery, refilter=refilter, labnum=labnum, returndata="Nice Work!!! Bobby would be so proud of you!")
         else:
-            return render_template('lab.html', labname=page_name, labnum=labnum, returndata="Incorrect Answer!")
+            return render_template('lab.html',  labsbuilt=labsbuilt, labname=page_name, sqlquery=sqlquery, refilter=refilter, labnum=labnum, returndata="Incorrect Answer!")
 
     #SQL Injection attempts go here
     elif request.method == 'POST' and request.form.get('value') and request.form.get('lab'):
@@ -90,14 +102,14 @@ def render_static(page_name):
             #msg = ""
             #for entry in result:
             #    msg = msg + entry[2] + '\n'
-            return render_template('lab.html', labname=page_name, labnum=labnum, returndata=result)
+            return render_template('lab.html',  labsbuilt=labsbuilt, labname=page_name, sqlquery=sqlquery, refilter=refilter, labnum=labnum, returndata=result)
         #If there is no data in the sql query
         else:
-            return render_template('lab.html', labname=page_name, labnum=labnum, returndata="No results")
+            return render_template('lab.html',  labsbuilt=labsbuilt, labname=page_name, sqlquery=sqlquery, refilter=refilter, labnum=labnum, returndata="No results")
 
     #Landing
     elif re.match(labregex, page_name):
-        return render_template('lab.html', labname=page_name, labnum=labnum, returndata="")
+        return render_template('lab.html',  labsbuilt=labsbuilt, labname=page_name, sqlquery=sqlquery, refilter=refilter, labnum=labnum, returndata="")
         #else:
         #    return "You shouldn't be here"}
 

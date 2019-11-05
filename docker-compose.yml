@@ -30,3 +30,18 @@ services:
       - '9002:3306'
     expose:
       - '9002'
+
+  db3:
+    build:
+      context: ./labs/3
+    restart: always
+    container_name: sql-lab3
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'sam'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'secret'
+    ports:
+      - '9003:3306'
+    expose:
+      - '9003'

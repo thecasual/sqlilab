@@ -32,7 +32,7 @@ INSERT INTO `dogs` (`Fact`) VALUES ("Code more, bark less.");
 INSERT INTO `dogs` (`Fact`) VALUES ("Give a dog a bone. Give a developer an IDE.");
 INSERT INTO `dogs` (`Fact`) VALUES ("Don't bury that code in the back yard for later, get it peer reviewed.");
 INSERT INTO `dogs` (`Fact`) VALUES ("Good dogs do their business outside. Good developers work in feature branches.");
-INSERT INTO `secret` (`Name`,`Password`) VALUES ("bobby","hunter2")
+INSERT INTO `secret` (`Name`,`Password`) VALUES ("bobby","snapekilleddumbledore")
 
 
 

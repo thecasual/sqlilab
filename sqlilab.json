@@ -4,20 +4,26 @@
             "1" : {
                 "Name" : "Lab 1",
                 "Filter" : "None", 
-                "Query" : "select * from dogs where id = 'USERINPUTHERE';"
+                "Query" : "select * from dogs where id = USERINPUTHERE;"
             },
             "2" : {
                 "Name" : "Lab 2",
                 "Filter" : "None", 
                 "Query" : "select * from dogs where id = 'USERINPUTHERE';"
+            },
+            "3" : {
+                "Name" : "Lab 3",
+                "Filter" : "\\s", 
+                "Query" : "select * from dogs where id = USERINPUTHERE;"
             }
         }
     ],
     "config" : {
         "username" : "sam",
         "password" : "secret",
-        "dbhost" : "10.24.0.94",
+        "dbhost" : "0.0.0.0",
         "database" : "db",
-        "webhookurl" : "here"
+        "webhookurl" : "https://chat.googleapis.com/v1/spaces/AAAAo7TB7bc/messages?key=XYZ",
+        "ChallengeURL" : "0.0.0.0"
     }
 }

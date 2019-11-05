@@ -12,8 +12,6 @@ uname = data['config']['username']
 pwd = data['config']['password']
 dbname = data['config']['database']
 
-#Access Lab 2 - data['labs'][0]['2']
-
 def sqlinsert(labnum, query):
     dbport = "900{}".format(labnum)
     mydb = mysql.connector.connect(host=dbhost, user=uname, passwd=pwd, database=dbname, port=dbport)
@@ -26,8 +24,15 @@ def sqlquery(labnum, query):
     dbport = "900{}".format(labnum)
     mydb = mysql.connector.connect(host=dbhost, user=uname, passwd=pwd, database=dbname, port=dbport)
     mycursor = mydb.cursor()
-    mycursor.execute(query)
-    myresult = mycursor.fetchall()
+    try:
+        mycursor.execute(query)
+        myresult = mycursor.fetchall()
+    except:
+        pass
+    
+    try: myresult
+    except: 
+        return "SQL Error!"
     
     if len(myresult) == 0:
         return "No results"
@@ -41,6 +46,7 @@ def processrequest(labnum, value):
         cleanvalue = re.sub(f, '', value)
         query = data['labs'][0][labnum]['Query']
         query = query.replace('USERINPUTHERE', cleanvalue)
+        print("Query : {0} Lab : {1}".format(query, labnum))
         out = sqlquery(labnum, query)
         #print("Query : {}".format(query))
         return out
@@ -56,4 +62,6 @@ def checkanswer(labnum, answer):
     else:
         return False
 
-# 1) 1' UNION SELECT Name, Password FROM secret -- -
+# 1) 1 UNION SELECT Name, Password FROM secret
+# 2) 1' UNION SELECT Name, Password FROM secret -- -
+# 3) 1/**/UNION/**/SELECT/**/Name,/**/Password/**/FROM/**/secret

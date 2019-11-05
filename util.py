@@ -2,6 +2,12 @@ import json
 import random
 import string
 import os
+import requests
+
+with open('sqlilab.json') as json_data_file:
+    data = json.load(json_data_file)
+    
+webhookurl = data['config']['webhookurl']
 
 def randomString(stringLength=10):
     """Generate a random string of fixed length """
@@ -69,6 +75,14 @@ def updatescore(labnum, key):
                     json.dump(data, out)
                 break
             c+=1
+
+def postwebhook(m):
+    postdata = {}
+    postdata["text"] = m
+    postdata = json.dumps(postdata)
+    headers = {'content-type': 'application/json'}
+    out = requests.post(webhookurl, headers=headers, data=postdata)
+    return out.status_code
 
 def rebuildeverything():
     os.system('util/rebuild.sh')

@@ -50,6 +50,17 @@ def getuserfromkey(key):
             return n['Name']
     if found == False:
         return "Invalid key"
+
+
+def addtowallofshame(user, attempt):
+    with open('templates/wallofshame.json', 'r') as wall_file:
+            currwall = json.load(wall_file)
+            currwall.append({
+                "Name" : user,
+                "Attempt" : attempt
+            })
+    with open('templates/wallofshame.json', 'w') as write_wall_file:
+        json.dump(currwall, write_wall_file)
          
 
 def updatescore(labnum, key):

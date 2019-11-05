@@ -15,13 +15,23 @@
                 "Name" : "Lab 3",
                 "Filter" : "\\s", 
                 "Query" : "select * from dogs where id = USERINPUTHERE;"
+            },
+            "4" : {
+                "Name" : "Lab 4",
+                "Filter" : "(union|UNION|sleep|SLEEP)", 
+                "Query" : "select * from dogs where id = USERINPUTHERE;"
+            },
+            "5" : {
+                "Name" : "Lab 5",
+                "Filter" : "(U|u)(N|n)(I|i)(O|o)(N|n)", 
+                "Query" : "select * from dogs where id = USERINPUTHERE;"
             }
         }
     ],
     "config" : {
         "username" : "sam",
         "password" : "secret",
-        "dbhost" : "0.0.0.0",
+        "dbhost" : "10.24.0.94",
         "database" : "db",
         "webhookurl" : "https://chat.googleapis.com/v1/spaces/AAAAo7TB7bc/messages?key=XYZ",
         "ChallengeURL" : "0.0.0.0"

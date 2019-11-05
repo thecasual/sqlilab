@@ -7,12 +7,7 @@ app = Flask(__name__)
 
 with open('sqlilab.json') as json_data_file:
     data = json.load(json_data_file)
-
-#TODO
-# 1) UI
-# 2) Button - rebuild a single lab
-
-
+    
 @app.route('/')
 def hello():
     if "sqlilab" not in request.cookies:
@@ -26,8 +21,16 @@ def rebuild():
     return render_template('lablanding.html', custommessage="Lab has been rebuilt!")
 
 @app.route('/score.json')
-def returnjson():
+def returnscorejson():
     return render_template('score.json')
+
+@app.route('/wallofshame.json')
+def returnwallofshamejson():
+    return render_template('wallofshame.json')
+
+@app.route('/wallofshame')
+def returnwallofshame():
+    return render_template('wallofshame.html')
 
 @app.route('/score')
 def returnscore():
@@ -65,6 +68,9 @@ def signup():
 @app.route('/<string:page_name>/', methods=['GET', 'POST'])
 def render_static(page_name):
 
+    if "sqlilab" not in request.cookies:
+        return render_template('signup.html') 
+
     labsbuilt = len(data['labs'][0])
 
     if re.match(labregex, page_name):
@@ -96,8 +102,8 @@ def render_static(page_name):
     elif request.method == 'POST' and request.form.get('value') and request.form.get('lab'):
         value = request.form.get('value')
         labinstance = request.form.get('lab')
-
-        result = processrequest(labnum, value)
+        user = getuserfromkey(request.cookies['sqlilab'])
+        result = processrequest(labnum, value, user)
         if result != "No results":
             #msg = ""
             #for entry in result:

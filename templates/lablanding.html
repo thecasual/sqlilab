@@ -2,7 +2,13 @@
       <link rel="stylesheet" type="text/css" href="/css/swag.css">
       <link rel="shortcut icon" href="/img/favicon.ico">
    <header>
-      Welcome to SQLi lab!
+         <div class="topnav">
+               <a href="/lab1">Start Challenge!</a>
+               <a href="/signup">Sign Up</a>
+               <a href="/wallofshame">Wall of Shame</a> 
+               <a href="/score">Scoreboard</a>
+               <a href="/rebuildlab">Nuke!!!!!</a>
+         </div>
 
    </header>
 
@@ -12,18 +18,17 @@
        
        <h1 align="center">SQLi Lab</h1>
        <h2> {{ custommessage }} <h2></h2>
-       <br><br>
-       <h3 align="center">You have been hired as a l33t HAX0R to exploit security flaws! <br>To receive precious internet points, perform SQL injections to retrieve Bobby's lost password<br></h3>
-       <p align="center">
-          <br>
-          <h3 align="center">Each challenge is vulnerable to SQLi</h3>
-          <br>
-          <h3 align="center">You will be presented with a Python filter and the SQL query</h3><br>
-          <br><br>
-          <br>
-          <a align="center" id="startchallenge" href="/lab1">Start The Challenge</a><br>
-          <a align="center" href="/signup">Sign Up!</a><br>
-          <a align="center" href="/score">Scoreboard</a>
-       </p>
+       <br>
+       <h2>You have been hired as a l33t HAX0R to exploit security flaws!</h2>
+       <h3 align="center">
+            <br><br>
+            Each challenge consist of a docker container running MySQL with a unique data set
+            <br><br>
+            The form parameter that is vulnerable to SQLi is "value"
+            <br><br>
+            The goal of each challenge is to retrieve Bobby's loss password
+            <br><br>
+            Careful clicking the NUKE button....
+       </h3>
    </body>
 </html>

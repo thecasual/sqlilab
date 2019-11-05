@@ -45,3 +45,32 @@ services:
       - '9003:3306'
     expose:
       - '9003'
+  db4:
+    build:
+      context: ./labs/4
+    restart: always
+    container_name: sql-lab4
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'sam'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'secret'
+    ports:
+      - '9004:3306'
+    expose:
+      - '9004'
+
+  db5:
+    build:
+      context: ./labs/5
+    restart: always
+    container_name: sql-lab5
+    environment:
+      MYSQL_DATABASE: 'db'
+      MYSQL_USER: 'sam'
+      MYSQL_PASSWORD: 'secret'
+      MYSQL_ROOT_PASSWORD: 'secret'
+    ports:
+      - '9005:3306'
+    expose:
+      - '9005'

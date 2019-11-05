@@ -120,4 +120,5 @@ def render_static(page_name):
         #    return "You shouldn't be here"}
 
 if __name__ == '__main__':
+    app.templates_auto_reload = True
     app.run(host='0.0.0.0', port='80')

